@@ -27,9 +27,12 @@ public class AnalyseImage {
         
         int ARGBNeu;
         Object DataNeu;
-				
 		
-		File datei = new File("C:/Users/marzian/Documents/Downloads/image_0n.png");
+        JFileChooser fc = new JFileChooser();
+        fc.showOpenDialog(null);
+        
+		
+		File datei = new File(fc.getSelectedFile().getAbsolutePath());
 
 		try { 
             image = ImageIO.read(datei); 
@@ -71,7 +74,7 @@ public class AnalyseImage {
             }        	 
         }
        
-        File outputFile = new File("C:/Users/marzian/Documents/Downloads/asdf.jpg");
+        File outputFile = new File(fc.getCurrentDirectory() + "/asdf.jpg");
         try {
 			ImageIO.write(image, "jpg", outputFile);
 		} catch (IOException e) {
