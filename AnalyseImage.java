@@ -62,15 +62,14 @@ public class AnalyseImage {
         		System.out.println("---------------------------------");
         		System.out.println(" ");
                 		
-        		RNeu = FarbRaum-c.getRed();
-        		GNeu = FarbRaum- c.getGreen();
-        		BNeu = FarbRaum-c.getBlue();
+        		RNeu = invertiere(c.getRed());
+        		GNeu = invertiere(c.getGreen());
+        		BNeu = invertiere(c.getBlue());
         		
         		Color cNeu = new Color(RNeu, GNeu, BNeu);        	
         		DataNeu = model.getDataElements(cNeu.getRGB(), null);
         		
-        		rasterNeu.setDataElements(i, j, DataNeu);
-        		 
+        		rasterNeu.setDataElements(i, j, DataNeu);        		 
             }        	 
         }
        
@@ -87,12 +86,11 @@ public class AnalyseImage {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		doIt();
-
-
 		
-		
-		
-		
+	}
+	
+	private static int invertiere(int rgbValue){
+		return 255 - rgbValue;
 	}
 
 }
