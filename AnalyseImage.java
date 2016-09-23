@@ -16,41 +16,69 @@ public class AnalyseImage {
 	static BufferedImage image;
 	
 	private static void doIt(){
+		int j = 0;
+        int i = 0;
+        
+        int RNeu = 0;
+        int GNeu = 0;
+        int BNeu = 0;
+        
+        int FarbRaum = 255;
+        
+        int ARGBNeu;
+        Object DataNeu;
+				
 		
-		JFileChooser fc = new JFileChooser();
-		fc.showOpenDialog(null);
-		
-		File datei = new File(fc.getSelectedFile().getAbsolutePath());
+		File datei = new File("C:/Users/marzian/Documents/Downloads/image_0n.png");
 
-		
-		
 		try { 
             image = ImageIO.read(datei); 
             
             
-        } catch (IOException ex) { 
-            ex.printStackTrace(); 
+        } catch (IOException ex) {            
+        	ex.printStackTrace();            
         } 
 		
 		ColorModel model = image.getColorModel(); 
         
         WritableRaster raster = image.getRaster();
-        Object dataAlt = raster.getDataElements(0, 0, null); 
-        int argbAlt =  model.getRGB(dataAlt);
-		Color c = new Color(argbAlt, true); 
-		System.out.println("R: " + c.getRed() );
-		System.out.println("G: " + c.getGreen() );
-		System.out.println("B: " + c.getBlue() );
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+        WritableRaster rasterNeu = image.getRaster();
+        
+        Object dataAlt;
+        
+        for(j = 0; j< raster.getHeight(); j++){
+        	for(i = 0; i < raster.getWidth(); i++){
+        		
+                dataAlt = raster.getDataElements(i, j, null); 
+                int argbAlt =  model.getRGB(dataAlt);
+        		Color c = new Color(argbAlt, true); 
+        		System.out.println("Koordinaten: x=" + i + " y=" + j);
+        		System.out.println("R: " + c.getRed() );
+        		System.out.println("G: " + c.getGreen() );
+        		System.out.println("B: " + c.getBlue() );
+        		System.out.println("---------------------------------");
+        		System.out.println(" ");
+                		
+        		RNeu = FarbRaum-c.getRed();
+        		GNeu = FarbRaum- c.getGreen();
+        		BNeu = FarbRaum-c.getBlue();
+        		
+        		Color cNeu = new Color(RNeu, GNeu, BNeu);        	
+        		DataNeu = model.getDataElements(cNeu.getRGB(), null);
+        		
+        		rasterNeu.setDataElements(i, j, DataNeu);
+        		 
+            }        	 
+        }
+       
+        File outputFile = new File("C:/Users/marzian/Documents/Downloads/asdf.jpg");
+        try {
+			ImageIO.write(image, "jpg", outputFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        		
 	}
 	
 	public static void main(String[] args) {
