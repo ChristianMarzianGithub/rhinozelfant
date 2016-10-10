@@ -39,7 +39,7 @@ public class AnalyseImage {
             //befülle array
             imageRGB = fillArray(raster);
             
-            //durchsuche Array            
+            //durchsuche/verarbeite Array            
             rasterNeu = scanArray(raster);             
             
             saveModifiedImage(fc);
@@ -85,10 +85,9 @@ public class AnalyseImage {
         		  )
         		{
         			Color cNeu = new Color(255, 255, 255);        	
-            		DataNeu = model.getDataElements(cNeu.getRGB(), null);
-            		
-            		rasterNeu.setDataElements(i, j, DataNeu);
-        		}else if(
+            		DataNeu = model.getDataElements(cNeu.getRGB(), null);            		
+            		rasterNeu.setDataElements(i, j, DataNeu);//der aktuelle Pixel im neuen Raster wird weiß gefärbt
+        		}else if(//Pixel darunter gleich ?
         				(imageRGB[i][j][0] == imageRGB[i][j+1][0])
         				&&
         				(imageRGB[i][j][1] == imageRGB[i][j+1][1])
@@ -97,11 +96,11 @@ public class AnalyseImage {
         				){
         			Color cNeu = new Color(255, 255, 255);        	
             		DataNeu = model.getDataElements(cNeu.getRGB(), null);                		
-            		rasterNeu.setDataElements(i, j, DataNeu);
+            		rasterNeu.setDataElements(i, j, DataNeu);//der aktuelle Pixel im neuen Raster wird weiß gefärbt
         		}else{
         			Color cNeu = new Color(imageRGB[i][j][0], imageRGB[i][j][1], imageRGB[i][j][2]);        	
             		DataNeu = model.getDataElements(cNeu.getRGB(), null);                		
-            		rasterNeu.setDataElements(i, j, DataNeu);                			
+            		rasterNeu.setDataElements(i, j, DataNeu);//der aktuelle Pixel im neuen Raster wird so gefärbt, wie im alten raster
         		}            		
             }        	 
         }
