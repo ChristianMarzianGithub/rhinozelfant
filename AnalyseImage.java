@@ -40,15 +40,10 @@ public class AnalyseImage {
             imageRGB = fillArray(raster);
             
             //durchsuche Array            
-            rasterNeu = scanArray(raster);                        
-            File outputFile = new File(fc.getCurrentDirectory() + "/asdf.jpg");
-            try {
-    			ImageIO.write(image, "jpg", outputFile);
-    			System.out.println("Datei gespeichert unter \n" + fc.getCurrentDirectory() + "\\asdf.jpg");
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
+            rasterNeu = scanArray(raster);             
+            
+            saveModifiedImage(fc);
+            
         }else{
         	System.out.println("Datei-Auswahl wurde vom Benutzer abgebrochen.");
         }        		
@@ -58,6 +53,19 @@ public class AnalyseImage {
 		doIt();
 		
 	}
+	
+	public static void saveModifiedImage(JFileChooser fc){
+		File outputFile = new File(fc.getCurrentDirectory() + "/asdf.jpg");
+        try {
+			ImageIO.write(image, "jpg", outputFile);
+			System.out.println("Datei gespeichert unter \n" + fc.getCurrentDirectory() + "\\asdf.jpg");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 	private static WritableRaster scanArray (WritableRaster raster){
 		int i;
