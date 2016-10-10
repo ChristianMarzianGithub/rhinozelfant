@@ -13,8 +13,7 @@ import javax.swing.JFileChooser;
 
 public class AnalyseImage {
 
-	static BufferedImage image;
-	
+	static BufferedImage image;	
 	static int [][][] imageRGB; 
 	static ColorModel model;
 	static Object DataNeu;
@@ -24,26 +23,14 @@ public class AnalyseImage {
         JFileChooser fc = new JFileChooser();
         if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
         {
-        	File datei = new File(fc.getSelectedFile().getAbsolutePath());
-    		try { 
-                image = ImageIO.read(datei);                 
-            } catch (IOException ex) {            
-            	ex.printStackTrace();            
-            }     		
-    		
+        	openPicture(fc);        	
     		model = image.getColorModel();             
             WritableRaster raster = image.getRaster();
             rasterNeu = image.getRaster();            
             imageRGB = new int [image.getWidth()][image.getHeight()][3]; 
-            
-            //befülle array
-            imageRGB = fillArray(raster);
-            
-            //durchsuche/verarbeite Array            
-            rasterNeu = scanArray(raster);             
-            
-            saveModifiedImage(fc);
-            
+            imageRGB = fillArray(raster);            
+            rasterNeu = scanArray(raster);           
+            saveModifiedImage(fc);            
         }else{
         	System.out.println("Datei-Auswahl wurde vom Benutzer abgebrochen.");
         }        		
@@ -63,6 +50,15 @@ public class AnalyseImage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void openPicture(JFileChooser fc){
+		File datei = new File(fc.getSelectedFile().getAbsolutePath());
+		try { 
+            image = ImageIO.read(datei);                 
+        } catch (IOException ex) {            
+        	ex.printStackTrace();            
+        }   
 	}
 	
 	
