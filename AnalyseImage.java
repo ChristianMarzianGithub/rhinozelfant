@@ -17,74 +17,30 @@ public class AnalyseImage {
 	
 	static int [][][] imageRGB; 
 	static ColorModel model;
+	static Object DataNeu;
+	static WritableRaster rasterNeu;
 	
-	private static void doIt(){
-		int j = 0;
-        int i = 0;
-        
-        Object DataNeu;
+	private static void doIt(){  
         JFileChooser fc = new JFileChooser();
-        
         if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
         {
         	File datei = new File(fc.getSelectedFile().getAbsolutePath());
     		try { 
-                image = ImageIO.read(datei); 
-                
-                
+                image = ImageIO.read(datei);                 
             } catch (IOException ex) {            
             	ex.printStackTrace();            
-            } 
+            }     		
     		
-    		model = image.getColorModel(); 
-            
+    		model = image.getColorModel();             
             WritableRaster raster = image.getRaster();
-            WritableRaster rasterNeu = image.getRaster();
-            
-            
-            
-            imageRGB = new int [image.getWidth()][image.getHeight()][3];
-            
+            rasterNeu = image.getRaster();            
+            imageRGB = new int [image.getWidth()][image.getHeight()][3]; 
             
             //befülle array
             imageRGB = fillArray(raster);
             
-            
-            //durchsuche Array
-            for(j = 0; j< raster.getHeight()-1; j++){
-            	for(i = 0; i < raster.getWidth()-1; i++){        		
-            		//Pixel rechts daneben gleich ?
-            		if(	
-            				(imageRGB[i][j][0] == imageRGB[i+1][j][0])
-            				&&
-            				(imageRGB[i][j][1] == imageRGB[i+1][j][1])
-            				&&
-            				(imageRGB[i][j][2] == imageRGB[i+1][j][2])        				
-            		  )
-            		{
-            			Color cNeu = new Color(255, 255, 255);        	
-                		DataNeu = model.getDataElements(cNeu.getRGB(), null);
-                		
-                		rasterNeu.setDataElements(i, j, DataNeu);
-            		}else if(
-            				(imageRGB[i][j][0] == imageRGB[i][j+1][0])
-            				&&
-            				(imageRGB[i][j][1] == imageRGB[i][j+1][1])
-            				&&
-            				(imageRGB[i][j][2] == imageRGB[i][j+1][2])
-            				){
-            			Color cNeu = new Color(255, 255, 255);        	
-                		DataNeu = model.getDataElements(cNeu.getRGB(), null);                		
-                		rasterNeu.setDataElements(i, j, DataNeu);
-            		}else{
-            			Color cNeu = new Color(imageRGB[i][j][0], imageRGB[i][j][1], imageRGB[i][j][2]);        	
-                		DataNeu = model.getDataElements(cNeu.getRGB(), null);                		
-                		rasterNeu.setDataElements(i, j, DataNeu);                			
-            		}            		
-                }        	 
-            }
-    		//Pixel darunter gleich ?
-    		//Pixel schräg darunter gleich ?
+            //durchsuche Array            
+            rasterNeu = scanArray(raster);                        
             File outputFile = new File(fc.getCurrentDirectory() + "/asdf.jpg");
             try {
     			ImageIO.write(image, "jpg", outputFile);
@@ -95,17 +51,56 @@ public class AnalyseImage {
     		}
         }else{
         	System.out.println("Datei-Auswahl wurde vom Benutzer abgebrochen.");
-        }
-        		
-	}
-	
+        }        		
+	}	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		doIt();
 		
 	}
 	
-	
+	private static WritableRaster scanArray (WritableRaster raster){
+		int i;
+		int j;
+		
+		
+		for(j = 0; j< raster.getHeight()-1; j++)
+        {
+        	for(i = 0; i < raster.getWidth()-1; i++){        		
+        		//Pixel rechts daneben gleich ?
+        		if(	
+        				(imageRGB[i][j][0] == imageRGB[i+1][j][0])
+        				&&
+        				(imageRGB[i][j][1] == imageRGB[i+1][j][1])
+        				&&
+        				(imageRGB[i][j][2] == imageRGB[i+1][j][2])        				
+        		  )
+        		{
+        			Color cNeu = new Color(255, 255, 255);        	
+            		DataNeu = model.getDataElements(cNeu.getRGB(), null);
+            		
+            		rasterNeu.setDataElements(i, j, DataNeu);
+        		}else if(
+        				(imageRGB[i][j][0] == imageRGB[i][j+1][0])
+        				&&
+        				(imageRGB[i][j][1] == imageRGB[i][j+1][1])
+        				&&
+        				(imageRGB[i][j][2] == imageRGB[i][j+1][2])
+        				){
+        			Color cNeu = new Color(255, 255, 255);        	
+            		DataNeu = model.getDataElements(cNeu.getRGB(), null);                		
+            		rasterNeu.setDataElements(i, j, DataNeu);
+        		}else{
+        			Color cNeu = new Color(imageRGB[i][j][0], imageRGB[i][j][1], imageRGB[i][j][2]);        	
+            		DataNeu = model.getDataElements(cNeu.getRGB(), null);                		
+            		rasterNeu.setDataElements(i, j, DataNeu);                			
+        		}            		
+            }        	 
+        }
+		
+		
+		return rasterNeu;
+	}
 	
 	
 	private static int[][][] fillArray(WritableRaster raster){
@@ -125,8 +120,7 @@ public class AnalyseImage {
         		imageRGB[i][j][1] = c.getGreen();
         		imageRGB[i][j][2] = c.getBlue();            			 
             }        	 
-        }
-		
+        }		
 		return imageRGB;
 	}
 	
