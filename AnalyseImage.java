@@ -7,6 +7,7 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream.Filter;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -21,6 +22,10 @@ public class AnalyseImage {
 	
 	private static void doIt(){  
         JFileChooser fc = new JFileChooser();
+        
+        
+        
+        
         if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
         {
         	openPicture(fc);        	
@@ -62,7 +67,12 @@ public class AnalyseImage {
 	}
 	
 	
-	
+	/**
+	 * Hier steht ein Beispiel Text
+	 * 
+	 * @param raster Das ist ein WritableRaster
+	 * @return gibt ein WritableRaster zurück
+	 */
 	private static WritableRaster scanArray (WritableRaster raster){
 		int i;
 		int j;
