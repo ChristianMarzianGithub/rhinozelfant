@@ -12,6 +12,8 @@ import java.nio.file.DirectoryStream.Filter;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
+import org.junit.Ignore;
+
 public class AnalyseImage {
 
 	static BufferedImage image;	
@@ -34,8 +36,10 @@ public class AnalyseImage {
             rasterNeu = image.getRaster();            
             imageRGB = new int [image.getWidth()][image.getHeight()][3]; 
             imageRGB = fillArray(raster);            
-            rasterNeu = scanArray(raster);           
+            rasterNeu = scanArray(raster);     
+            
             saveModifiedImage(fc);            
+            
         }else{
         	System.out.println("Datei-Auswahl wurde vom Benutzer abgebrochen.");
         }        		
@@ -78,6 +82,7 @@ public class AnalyseImage {
 		int j;
 		
 		
+		
 		for(j = 0; j< raster.getHeight()-1; j++)
         {
         	for(i = 0; i < raster.getWidth()-1; i++){        		
@@ -90,7 +95,7 @@ public class AnalyseImage {
         				(imageRGB[i][j][2] == imageRGB[i+1][j][2])        				
         		  )
         		{
-        			Color cNeu = new Color(255, 255, 255);        	
+        			Color cNeu = new Color(255, 255, 255);        					// könnte noch ausgekapselt werden, da es dreimal auf sehr ähnliche Weise verwendet wird				
             		DataNeu = model.getDataElements(cNeu.getRGB(), null);            		
             		rasterNeu.setDataElements(i, j, DataNeu);//der aktuelle Pixel im neuen Raster wird weiß gefärbt
         		}else if(//Pixel darunter gleich ?
@@ -111,6 +116,7 @@ public class AnalyseImage {
             }        	 
         }
 		
+				
 		
 		return rasterNeu;
 	}
@@ -144,3 +150,4 @@ public class AnalyseImage {
 	}
 
 }
+ 
