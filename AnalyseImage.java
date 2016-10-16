@@ -13,14 +13,12 @@ import javax.swing.JFileChooser;
 
 
 public class AnalyseImage {
-
-	static ColorModel model;
-	static Object DataNeu;
-	static WritableRaster rasterNeu;
 	
 	public static void doIt(){  
         BufferedImage image;
         int [][][] imageRGB; 
+        ColorModel model;
+        WritableRaster rasterNeu;
         
 		JFileChooser fc = new JFileChooser();
         
@@ -31,8 +29,8 @@ public class AnalyseImage {
             WritableRaster raster = image.getRaster();
             rasterNeu = image.getRaster();            
             imageRGB = new int [image.getWidth()][image.getHeight()][3]; 
-            imageRGB = fillArray(raster, imageRGB);            
-            rasterNeu = scanArray(raster,imageRGB );                 
+            imageRGB = fillArray(raster, imageRGB, model);            
+            rasterNeu = scanArray(raster,imageRGB, model,rasterNeu );                 
             saveModifiedImage(image,fc);                       
         }else{
         	System.out.println("Datei-Auswahl wurde vom Benutzer abgebrochen.");
@@ -74,9 +72,10 @@ public class AnalyseImage {
 	 * @param raster Das ist ein WritableRaster
 	 * @return gibt ein WritableRaster zurück
 	 */
-	private static WritableRaster scanArray (WritableRaster raster, int [][][] imageRGB){
+	private static WritableRaster scanArray (WritableRaster raster, int [][][] imageRGB, ColorModel model,WritableRaster rasterNeu){
 		int i;
 		int j;
+		Object DataNeu;
 		
 		
 		for(j = 0; j< raster.getHeight()-1; j++)
@@ -116,7 +115,7 @@ public class AnalyseImage {
 	}
 	
 	
-	private static int[][][] fillArray(WritableRaster raster, int[][][] imageRGB){
+	private static int[][][] fillArray(WritableRaster raster, int[][][] imageRGB, ColorModel model){
 		int j;
 		int i;
 		Object dataAlt;
