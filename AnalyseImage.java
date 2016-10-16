@@ -7,39 +7,33 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream.Filter;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
-import org.junit.Ignore;
+
 
 public class AnalyseImage {
 
-	static BufferedImage image;	
-	static int [][][] imageRGB; 
 	static ColorModel model;
 	static Object DataNeu;
 	static WritableRaster rasterNeu;
 	
-	private static void doIt(){  
-        JFileChooser fc = new JFileChooser();
+	public static void doIt(){  
+        BufferedImage image;
+        int [][][] imageRGB; 
         
-        
-        
+		JFileChooser fc = new JFileChooser();
         
         if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
         {
-        	openPicture(fc);        	
+        	image = openImage(fc);        	
     		model = image.getColorModel();             
             WritableRaster raster = image.getRaster();
             rasterNeu = image.getRaster();            
             imageRGB = new int [image.getWidth()][image.getHeight()][3]; 
-            imageRGB = fillArray(raster);            
-            rasterNeu = scanArray(raster);     
-            
-            saveModifiedImage(fc);            
-            
+            imageRGB = fillArray(raster, imageRGB);            
+            rasterNeu = scanArray(raster,imageRGB );                 
+            saveModifiedImage(image,fc);                       
         }else{
         	System.out.println("Datei-Auswahl wurde vom Benutzer abgebrochen.");
         }        		
@@ -47,13 +41,12 @@ public class AnalyseImage {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		doIt();
-		
 	}
 	
-	public static void saveModifiedImage(JFileChooser fc){
+	private static void saveModifiedImage(BufferedImage imageWork ,JFileChooser fc){
 		File outputFile = new File(fc.getCurrentDirectory() + "/asdf.jpg");
         try {
-			ImageIO.write(image, "jpg", outputFile);
+			ImageIO.write(imageWork, "jpg", outputFile);
 			System.out.println("Datei gespeichert unter \n" + fc.getCurrentDirectory() + "\\asdf.jpg");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -61,13 +54,17 @@ public class AnalyseImage {
 		}
 	}
 	
-	public static void openPicture(JFileChooser fc){
+	private static BufferedImage openImage(JFileChooser fc){
+		BufferedImage  imageRes = null;	
+		
 		File datei = new File(fc.getSelectedFile().getAbsolutePath());
 		try { 
-            image = ImageIO.read(datei);                 
+			imageRes = ImageIO.read(datei);                 
         } catch (IOException ex) {            
         	ex.printStackTrace();            
         }   
+		
+		return imageRes;
 	}
 	
 	
@@ -77,10 +74,9 @@ public class AnalyseImage {
 	 * @param raster Das ist ein WritableRaster
 	 * @return gibt ein WritableRaster zurück
 	 */
-	private static WritableRaster scanArray (WritableRaster raster){
+	private static WritableRaster scanArray (WritableRaster raster, int [][][] imageRGB){
 		int i;
 		int j;
-		
 		
 		
 		for(j = 0; j< raster.getHeight()-1; j++)
@@ -116,13 +112,11 @@ public class AnalyseImage {
             }        	 
         }
 		
-				
-		
 		return rasterNeu;
 	}
 	
 	
-	private static int[][][] fillArray(WritableRaster raster){
+	private static int[][][] fillArray(WritableRaster raster, int[][][] imageRGB){
 		int j;
 		int i;
 		Object dataAlt;
