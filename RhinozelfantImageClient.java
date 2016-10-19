@@ -1,29 +1,47 @@
 package rhinozelfantPackageObjektorientiert;
 
+
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 
-public class RhinozelfantImageClient {
 
+@SuppressWarnings("serial")
+public class RhinozelfantImageClient extends JPanel {
+
+	BufferedImage x;
+	
 	public RhinozelfantImageClient (){
+
 		
 	}
 	
+		
 	public void doIt(){		
 		RhinozelfantImage image = new RhinozelfantImage();
 		JFileChooser fc = new JFileChooser();
 		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
-			image.setImage(openImage(fc));
+			
+			image.setImage(openImage(fc));	//wenn der Benutzer die Datei-Auswahl abbricht, sollte etwas passieren!
 			image.processImage();			
-			saveImage(image.getImage(),fc);
+			saveImage(image.getImage(),fc);	
+			x = image.getImage();
 		}else{
         	System.out.println("Datei-Auswahl wurde vom Benutzer abgebrochen.");
-        } 
+        } 		
 	}
+	
+	public void paintComponent(Graphics g){
+		
+		g.drawImage(x,0,0,null);
+	}
+	
+	
+	
 	
 	private static BufferedImage openImage(JFileChooser fc){
 		BufferedImage  imageRes = null;	
@@ -35,7 +53,10 @@ public class RhinozelfantImageClient {
         	ex.printStackTrace();            
         }   
 		
+		
 		return imageRes;
+		
+		
 	}
 	
 	private static void saveImage(BufferedImage imageWork ,JFileChooser fc){
@@ -47,6 +68,9 @@ public class RhinozelfantImageClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        
 	}
 	
 }
+
+
