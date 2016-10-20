@@ -14,50 +14,36 @@ import javax.swing.JPanel;
 public class RhinozelfantImageClient extends JPanel {
 
 	BufferedImage x;
+	String pfad;
+	File datei;
 	
-	public RhinozelfantImageClient (){
-
-		
+	public RhinozelfantImageClient (File BildDatei){
+		this.datei = BildDatei;
 	}
 	
 		
-	public void doIt(){		
+	public void doIt() throws IOException{		
 		RhinozelfantImage image = new RhinozelfantImage();
 		JFileChooser fc = new JFileChooser();
-		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
-			
-			image.setImage(openImage(fc));	//wenn der Benutzer die Datei-Auswahl abbricht, sollte etwas passieren!
+		//if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){			
+			image.setImage(ImageIO.read(datei) );	//wenn der Benutzer die Datei-Auswahl abbricht, sollte etwas passieren!
 			image.processImage();			
 			saveImage(image.getImage(),fc);	
 			x = image.getImage();
-		}else{
-        	System.out.println("Datei-Auswahl wurde vom Benutzer abgebrochen.");
-        } 		
+			
+//		}else{
+//        	System.out.println("Datei-Auswahl wurde vom Benutzer abgebrochen.");
+//        } 		
 	}
 	
-	public void paintComponent(Graphics g){
-		
+	public void paintComponent(Graphics g){		
 		g.drawImage(x,0,0,null);
 	}
 	
 	
 	
 	
-	private static BufferedImage openImage(JFileChooser fc){
-		BufferedImage  imageRes = null;	
-		
-		File datei = new File(fc.getSelectedFile().getAbsolutePath());
-		try { 
-			imageRes = ImageIO.read(datei);                 
-        } catch (IOException ex) {            
-        	ex.printStackTrace();            
-        }   
-		
-		
-		return imageRes;
-		
-		
-	}
+	
 	
 	private static void saveImage(BufferedImage imageWork ,JFileChooser fc){
 		File outputFile = new File(fc.getCurrentDirectory() + "/asdf.jpg");
