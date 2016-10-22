@@ -1,4 +1,4 @@
-package beispiel;
+package rhinozelfantPackageObjektorientiert;
 
 import java.awt.BorderLayout; 
 import java.awt.Color; 
@@ -91,7 +91,7 @@ public class ManipulateImage extends JFrame {
         WritableRaster raster = image.getRaster(); 
         ColorModel model = image.getColorModel(); 
          
-        //äußeres Viereck 
+        //ï¿½uï¿½eres Viereck 
         Color c1 = Color.RED; 
         int argb1 = c1.getRGB(); 
         Object data1 = model.getDataElements(argb1, null); 
@@ -104,7 +104,7 @@ public class ManipulateImage extends JFrame {
         
         for (int i = 0; i < width; i++) { 
             for (int j = 0; j < height; j++) { 
-                raster.setDataElements(i, j, data1); //mit data1 übergebe ich in diesem Fall nur die Farbe
+                raster.setDataElements(i, j, data1); //mit data1 ï¿½bergebe ich in diesem Fall nur die Farbe
                 if(i>50 && i<150 && j>50 && j<150){ 
                     raster.setDataElements(i, j, data2); 
                 } 

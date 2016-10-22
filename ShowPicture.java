@@ -20,7 +20,9 @@ public class ShowPicture extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g){		
-		g.drawImage(img,0,0,null);
+		int height = (int) (img.getHeight() * 0.5);
+		int width = (int) (img.getWidth() * 0.5);
+		g.drawImage(img, 0, 0, width, height, null);
 	}
 	
 	

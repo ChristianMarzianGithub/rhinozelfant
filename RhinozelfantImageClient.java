@@ -37,7 +37,9 @@ public class RhinozelfantImageClient extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g){		
-		g.drawImage(x,0,0,null);
+		int height = (int) (x.getHeight() * 0.5);
+		int width = (int) (x.getWidth() * 0.5);
+		g.drawImage(x, 0, 0, width, height, null);
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -12,8 +13,9 @@ public class RhinozelfantImageClientTest {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		
-		File dateiBildRhinozelfant = new File("C:\\Users\\marzian\\Downloads\\rhinozelfant1.bmp");
+		JFileChooser fc = new JFileChooser();
+		fc.showOpenDialog(null);
+		File dateiBildRhinozelfant = new File(fc.getSelectedFile().getAbsolutePath());
 		
 		RhinozelfantImageClient asdf = new RhinozelfantImageClient(dateiBildRhinozelfant);
 		asdf.doIt();
