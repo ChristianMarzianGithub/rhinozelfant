@@ -20,6 +20,7 @@ public class RhinozelfantImage {
 
 	public void setImage(BufferedImage inputImage) {
 		this.image = inputImage;
+		
 	}
 	
 	public void processImage(){
