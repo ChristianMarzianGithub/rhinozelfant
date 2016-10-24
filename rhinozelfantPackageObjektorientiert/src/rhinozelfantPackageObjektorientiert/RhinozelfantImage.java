@@ -58,10 +58,10 @@ public class RhinozelfantImage {
 		return imageRGB;
 	}
 	
-	private static WritableRaster scanArray (WritableRaster raster, int [][][] imageRGB, ColorModel model,WritableRaster rasterNeu){
+	private static WritableRaster scanArray (WritableRaster raster, int [][][] imageRGB, ColorModel model,WritableRaster rasterNeu)
+	{
 		int i;
 		int j;
-		Object DataNeu;
 		
 		for(j = 0; j< raster.getHeight()-1; j++)
         {
@@ -75,9 +75,14 @@ public class RhinozelfantImage {
         				(imageRGB[i][j][2] == imageRGB[i+1][j][2])        				
         		  )
         		{
-        			Color cNeu = new Color(255, 255, 255);        					// könnte noch ausgekapselt werden, da es dreimal auf sehr ähnliche Weise verwendet wird				
-            		DataNeu = model.getDataElements(cNeu.getRGB(), null);            		
-            		rasterNeu.setDataElements(i, j, DataNeu);//der aktuelle Pixel im neuen Raster wird weiß gefärbt
+        			
+        		
+        			einfaerben(new Color(255, 255, 255),
+	        					rasterNeu,
+	        					model,
+	        					i,
+	        					j);
+	        		
         		}else if(//Pixel darunter gleich ?
         				(imageRGB[i][j][0] == imageRGB[i][j+1][0])
         				&&
@@ -85,18 +90,33 @@ public class RhinozelfantImage {
         				&&
         				(imageRGB[i][j][2] == imageRGB[i][j+1][2])
         				){
-        			Color cNeu = new Color(255, 255, 255);        	
-            		DataNeu = model.getDataElements(cNeu.getRGB(), null);                		
-            		rasterNeu.setDataElements(i, j, DataNeu);//der aktuelle Pixel im neuen Raster wird weiß gefärbt
+        			
+        			
+            		
+            		einfaerben(new Color(255, 255, 255),
+            					rasterNeu, 
+            					model, 
+            					i, 
+            					j);
+            		
         		}else{
-        			Color cNeu = new Color(imageRGB[i][j][0], imageRGB[i][j][1], imageRGB[i][j][2]);        	
-            		DataNeu = model.getDataElements(cNeu.getRGB(), null);                		
-            		rasterNeu.setDataElements(i, j, DataNeu);//der aktuelle Pixel im neuen Raster wird so gefärbt, wie im alten raster
+        			einfaerben(new Color(imageRGB[i][j][0], imageRGB[i][j][1], imageRGB[i][j][2]), 
+        						rasterNeu,
+        						model,
+        						i,
+        						j);
+        		
         		}            		
             }        	 
         }
 		
 		return rasterNeu;
+	}
+	
+	private static void einfaerben(Color ColorObj, WritableRaster rasterObj, ColorModel cm, int x, int y){
+		Object DataNeu;
+		DataNeu = cm.getDataElements(ColorObj.getRGB(), null);   
+		rasterObj.setDataElements(x, y, DataNeu);//der aktuelle Pixel im neuen Raster wird weiï¿½ gefï¿½rbt
 	}
 
 }
