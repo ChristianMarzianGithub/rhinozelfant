@@ -63,42 +63,56 @@ public class RhinozelfantImage {
 		int i;
 		int j;
 		
-		for(j = 0; j< raster.getHeight()-1; j++)
+		for(j = 0; j< raster.getHeight()-1; j+=2)
         {
-        	for(i = 0; i < raster.getWidth()-1; i++){        		
+        	for(i =0; i < raster.getWidth()-1; i++){        		
         		//Pixel rechts daneben gleich ?
-        		if(	
-        				(imageRGB[i][j][0] == imageRGB[i+1][j][0])
-        				&&
-        				(imageRGB[i][j][1] == imageRGB[i+1][j][1])
-        				&&
-        				(imageRGB[i][j][2] == imageRGB[i+1][j][2])        				
-        		  )
-        		{
-        			
-        		
+        		if	(	
+        				(
+	        				(imageRGB[i][j][0] == imageRGB[i+1][j][0])
+	        				&&
+	        				(imageRGB[i][j][1] == imageRGB[i+1][j][1])
+	        				&&
+	        				(imageRGB[i][j][2] == imageRGB[i+1][j][2])  //rechts
+	        				&&
+	        				(imageRGB[i][j][0] == imageRGB[i][j+1][0])
+	        				&&
+	        				(imageRGB[i][j][1] == imageRGB[i][j+1][1])
+	        				&&
+	        				(imageRGB[i][j][2] == imageRGB[i][j+1][2]) //unten
+	        				&&
+	        				(imageRGB[i][j][0] == imageRGB[i+1][j+1][0])
+	        				&&
+	        				(imageRGB[i][j][1] == imageRGB[i+1][j+1][1])
+	        				&&
+	        				(imageRGB[i][j][2] == imageRGB[i+1][j+1][2])//rechts unten
+        				)
+        				
+        				
+        			)
+        				
+        		{     			
         			einfaerben(new Color(255, 255, 255),
 	        					rasterNeu,
 	        					model,
 	        					i,
 	        					j);
+        			einfaerben(new Color(255, 255, 255),
+        					rasterNeu,
+        					model,
+        					i+1,
+        					j);
+        			einfaerben(new Color(255, 255, 255),
+        					rasterNeu,
+        					model,
+        					i+1,
+        					j+1);
+        			einfaerben(new Color(255, 255, 255),
+        					rasterNeu,
+        					model,
+        					i,
+        					j+1);
 	        		
-        		}else if(//Pixel darunter gleich ?
-        				(imageRGB[i][j][0] == imageRGB[i][j+1][0])
-        				&&
-        				(imageRGB[i][j][1] == imageRGB[i][j+1][1])
-        				&&
-        				(imageRGB[i][j][2] == imageRGB[i][j+1][2])
-        				){
-        			
-        			
-            		
-            		einfaerben(new Color(255, 255, 255),
-            					rasterNeu, 
-            					model, 
-            					i, 
-            					j);
-            		
         		}else{
         			einfaerben(new Color(imageRGB[i][j][0], imageRGB[i][j][1], imageRGB[i][j][2]), 
         						rasterNeu,
@@ -116,7 +130,7 @@ public class RhinozelfantImage {
 	private static void einfaerben(Color ColorObj, WritableRaster rasterObj, ColorModel cm, int x, int y){
 		Object DataNeu;
 		DataNeu = cm.getDataElements(ColorObj.getRGB(), null);   
-		rasterObj.setDataElements(x, y, DataNeu);//der aktuelle Pixel im neuen Raster wird wei� gef�rbt
+		rasterObj.setDataElements(x, y, DataNeu);//der aktuelle Pixel im neuen Raster wird weiï¿½ gefï¿½rbt
 	}
 
 }
