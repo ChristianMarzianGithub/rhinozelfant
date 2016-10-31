@@ -58,6 +58,8 @@ public class RhinozelfantImage {
 		return imageRGB;
 	}
 	
+	
+
 	private static WritableRaster scanArray (WritableRaster raster, int [][][] imageRGB, ColorModel model,WritableRaster rasterNeu)
 	{
 		int i;
@@ -69,23 +71,29 @@ public class RhinozelfantImage {
         		//Pixel rechts daneben gleich ?
         		if	(	
         				(
-	        				(imageRGB[i][j][0] == imageRGB[i+1][j][0])
-	        				&&
-	        				(imageRGB[i][j][1] == imageRGB[i+1][j][1])
-	        				&&
-	        				(imageRGB[i][j][2] == imageRGB[i+1][j][2])  //rechts
-	        				&&
-	        				(imageRGB[i][j][0] == imageRGB[i][j+1][0])
-	        				&&
-	        				(imageRGB[i][j][1] == imageRGB[i][j+1][1])
-	        				&&
-	        				(imageRGB[i][j][2] == imageRGB[i][j+1][2]) //unten
-	        				&&
-	        				(imageRGB[i][j][0] == imageRGB[i+1][j+1][0])
-	        				&&
-	        				(imageRGB[i][j][1] == imageRGB[i+1][j+1][1])
-	        				&&
-	        				(imageRGB[i][j][2] == imageRGB[i+1][j+1][2])//rechts unten
+	        				(
+        						(imageRGB[i][j][0] == imageRGB[i+1][j][0])
+        						&&
+        						(imageRGB[i][j][1] == imageRGB[i+1][j][1])
+        						&&
+        						(imageRGB[i][j][2] == imageRGB[i+1][j][2])  //rechts
+	        				)
+	        				||
+	        				(
+        						(imageRGB[i][j][0] == imageRGB[i][j+1][0])
+		        				&&
+		        				(imageRGB[i][j][1] == imageRGB[i][j+1][1])
+		        				&&
+		        				(imageRGB[i][j][2] == imageRGB[i][j+1][2])
+	        				)//unten
+	        				||
+	        				(
+		        				(imageRGB[i][j][0] == imageRGB[i+1][j+1][0])
+		        				&&
+		        				(imageRGB[i][j][1] == imageRGB[i+1][j+1][1])
+		        				&&
+		        				(imageRGB[i][j][2] == imageRGB[i+1][j+1][2])//diagonal rechts unten
+	        				)
         				)
         				
         				
@@ -97,21 +105,7 @@ public class RhinozelfantImage {
 	        					model,
 	        					i,
 	        					j);
-        			einfaerben(new Color(255, 255, 255),
-        					rasterNeu,
-        					model,
-        					i+1,
-        					j);
-        			einfaerben(new Color(255, 255, 255),
-        					rasterNeu,
-        					model,
-        					i+1,
-        					j+1);
-        			einfaerben(new Color(255, 255, 255),
-        					rasterNeu,
-        					model,
-        					i,
-        					j+1);
+
 	        		
         		}else{
         			einfaerben(new Color(imageRGB[i][j][0], imageRGB[i][j][1], imageRGB[i][j][2]), 
